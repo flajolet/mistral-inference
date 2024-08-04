@@ -65,6 +65,7 @@ def interactive(
     num_pipeline_ranks: int = 1,
     instruct: bool = False,
     lora_path: Optional[str] = None,
+    dtype: Optional[str] = None,
 ) -> None:
     if is_torchrun():
         torch.distributed.init_process_group()
@@ -75,6 +76,17 @@ def interactive(
     else:
         should_print = True
         num_pipeline_ranks = 1
+
+    if dtype == None:
+        pass
+    elif dtype == "bfloat16":
+        dtype = torch.bfloat16
+    elif dtype == "float16":
+        dtype = torch.float16
+    elif dtype == "float32":
+        dtype = torch.float32
+    else:
+        raise NotImplementedError("No matching dtype")
 
     mistral_tokenizer: MistralTokenizer = load_tokenizer(Path(model_path))
     tokenizer: Tokenizer = mistral_tokenizer.instruct_tokenizer.tokenizer
