@@ -92,7 +92,7 @@ def interactive(
     tokenizer: Tokenizer = mistral_tokenizer.instruct_tokenizer.tokenizer
 
     model_cls = get_model_cls(model_path)
-    model = model_cls.from_folder(Path(model_path), max_batch_size=3, num_pipeline_ranks=num_pipeline_ranks)
+    model = model_cls.from_folder(Path(model_path), max_batch_size=3, num_pipeline_ranks=num_pipeline_ranks, dtype=dtype)
 
     # load LoRA
     if lora_path is not None:
